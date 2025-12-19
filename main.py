@@ -89,8 +89,8 @@ class GearVisualizer:
         
     def update_gear2_radius(self):
         """Update gear 2 radius based on current gear ratio."""
-        # Gear ratio determines the relative size
-        self.gear2_radius = self.gear1_radius * self.gear_system.gear_ratio
+        # Gear ratio determines the relative size with bounds to keep gears visible
+        self.gear2_radius = max(0.5, min(2.0, self.gear1_radius * self.gear_system.gear_ratio))
         
     def animate(self, frame):
         """
@@ -163,8 +163,8 @@ def main():
     # Create visualizer
     visualizer = GearVisualizer()
     
-    # Create animation
-    anim = animation.FuncAnimation(
+    # Create animation and store reference to prevent garbage collection
+    visualizer.anim = animation.FuncAnimation(
         visualizer.fig, 
         visualizer.animate,
         frames=None,  # Infinite loop
